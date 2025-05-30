@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="tr">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Ana Sayfa</title>
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+        <link href="css/styles.css" rel="stylesheet" />
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Leaflet CSS -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+        <meta charset="UTF-8">
+     <meta charset="UTF-8">
+    <title>Hava Kirliliği Tablosu</title>
+    <style>
+        table {
+            width: 60%;
+            margin: 40px auto;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-family: Arial, sans-serif;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        thead {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        th {
+            padding: 12px 15px;
+            text-align: center;
+            border: 2px solid #0056b3; /* Başlıklara kalın ve koyu mavi çerçeve */
+            border-radius: 8px;         /* Başlık hücrelerine de yumuşak köşe */
+            background-color: #007BFF;  /* Arka plan tekrar belirleniyor */
+        }
+
+        td {
+            padding: 12px 15px;
+            text-align: center;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        td:hover {
+            transform: scale(1.2);
+            background-color: #e6f7ff;
+            cursor: pointer;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">        
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+            <!-- Navbar Search-->
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Arama Yapın" aria-label="Arama Yapın" aria-describedby="btnNavbarSearch" />
+                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </form>
+            <!-- Navbar-->
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">Ayarlar</a></li>
+                        <li><a class="dropdown-item" href="#!">Aktivite Kütü</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="#!">Lokasyon</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <a class="nav-link" href="index.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Ana Sayfa
+                            </a>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Haritalar
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="layout-static.html">Hava Kirliliği Haritası</a>
+                                    <a class="nav-link" href="layout-sidenav-light.html">Trafik Yoğunluğu Haritası</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                Kullanıcı
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                                        Giriş Bilgileri
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" href="login.html">Giriş Yap</a>
+                                            <a class="nav-link" href="register.html">Kayıt Ol</a>
+                                            <a class="nav-link" href="password.html">Şifremi Unuttum</a>
+                                        </nav>
+                                    </div>
+                                </nav>
+                            </div>
+                            <a class="nav-link" href="charts.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                Grafikler
+                            </a>
+                            <a class="nav-link" href="tables.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Tablolar
+                            </a>
+                        </div>
+                        
+                    </div>
+                        <a class="navbar-brand ps-3" href="index.html">
+                        <img src="img/logo.png" alt="Şehir Analiz" style="height: 200px;">
+                </a>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Ana Sayfa</h1>
+                        <div class="row mb-0"> <!-- Boşluk azaltıldı -->
+    <!-- Sol Tablo -->
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">HAVA KİRLİLİĞİ YÜKSEK İLK 3 ŞEHİR</div>
+            <div class="card-body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Şehir</th>
+                            <th>Hava Kirliliği Durumu</th>
+                            <th>Hava Kirliliği Oranı</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>İstanbul</td>
+                            <td>Yüksek</td>
+                            <td>%82</td>
+                        </tr>
+                        <tr>
+                            <td>Ankara</td>
+                            <td>Yüksek</td>
+                            <td>%76</td>
+                        </tr>
+                        <tr>
+                            <td>İzmir</td>
+                            <td>Yüksek</td>
+                            <td>%70</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sağ Tablo -->
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">TRAFİK YOĞUNLUĞU YÜKSEK İLK 3 ŞEHİR</div>
+            <div class="card-body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Şehir</th>
+                            <th>Trafik Yoğunluğu Durumu</th>
+                            <th>Trafik Yoğunluğu Oranı</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>İstanbul</td>
+                            <td>Yüksek</td>
+                            <td>%85</td>
+                        </tr>
+                        <tr>
+                            <td>Ankara</td>
+                            <td>Yüksek</td>
+                            <td>%65</td>
+                        </tr>
+                        <tr>
+                            <td>İzmir</td>
+                            <td>Yüksek</td>
+                            <td>%60</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<h1 class="m-0" style="background-color: blue; text-align: center; padding: 15px; color: white;">Bilgilendirme</h1>
+  </div>
+
+  <div class="container" style="padding: 15px;">
+
+
+    <div class="alert alert-success" role="alert">
+      <h4 class="alert-heading">1. Hava Kirliliği Her Yıl 7 Milyon Can Alıyor</h4>
+      <p>Dünya Sağlık Örgütü’ne göre, hava kirliliği her yıl 7 milyon kişinin erken ölümüne neden oluyor.</p>
+    </div>
+
+  
+
+<div class="alert alert-warning" role="alert">
+      <h4 class="alert-heading">2. Ev Havası Dışarıdan Daha Kirli Olabilir</h4>
+      <p>Kapalı ortamlarda hava, dışarıya göre 2-5 kat daha kirli olabilir. Temizlik ürünleri ve parfümler bunun başlıca nedenlerindendir.</p>
+    </div>
+
+
+    <div class="alert alert-danger" role="alert">
+      <h4 class="alert-heading">3. Kirli Hava Zihni Etkileyebilir</h4>
+      <p>Hava kirliliği çocuklarda zeka gelişimini ve yetişkinlerde bilişsel işlevleri olumsuz etkileyebilir.</p>
+    </div>
+
+
+
+  <div class="container mt-5">
+    <h1>Haberler</h1>
+
+    <div class="row">
+      <div class="col-3">
+        
+          <div class="card" style="width: 18rem;">
+  <img src="img/havakirlilik.webp" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">Haber Yazıları</h5>
+    <p class="card-text">Hava kirliliği, havada bulunan zararlı gazların, partiküllerin ve biyolojik moleküllerin insan sağlığına ve çevreye zarar verecek seviyelere ulaşmasıdır.</p>
+    
+          </div>
+        </div>
+      </div>
+    
+      <div class="col-3">
+        
+          <div class="card" style="width: 18rem;">
+  <img src="img/4-hava_rapor4.jpeg" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">Haber Yazıları</h5>
+    <p class="card-text">Hava kirliliği sadece çevreyi değil, insan sağlığını da ciddi şekilde tehdit eder. Özellikle yaşlılar, çocuklar ve solunum yolu hastalığı olan bireyler risk altındadır. PM2.5 olarak bilinen ince partiküller akciğerlere kadar ulaşabilir ve kan dolaşımına karışarak kalp-damar sistemine zarar verebilir.</p>
+    
+          </div>
+        </div>
+      </div>
+      
+
+
+
+
+
+      <div class="col-3">
+        
+          <div class="card" style="width: 18rem;">
+  <img src="img/Hava-kirliliginin-de-kanser-yaptigini-unutmayalim-641560-966-544.jpg" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">Haber Yazıları</h5>
+    <p class="card-text">Modern şehirlerde hava kirliliği genellikle taşıt trafiği, yoğun nüfus, sanayi tesisleri ve enerji tüketiminden kaynaklanır. Özellikle sabah ve akşam saatlerinde trafiğin yoğunlaşması, egzoz gazlarının şehir havasına karışmasına neden olur.</p>
+    
+          </div>
+        </div>
+      </div>
+      
+
+
+
+
+
+
+      
+      <div class="col-3">
+        
+          <div class="card" style="width: 18rem;">
+  <img src="img/hq720.jpg" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">Haber Yazıları</h5>
+    <p class="card-text">Hava kalitesi genellikle Hava Kalitesi İndeksi (AQI) ile ölçülür. Bu indeks, havadaki kirleticilerin miktarına göre bir puan aralığına karşılık gelir. Düşük AQI değeri temiz hava anlamına gelirken, yüksek değerler sağlığı tehdit edici olabilir.</p>
+    
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+    
+                </main>
+                
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="assets/demo/chart-area-demo.js"></script>
+        <script src="assets/demo/chart-bar-demo.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+        <script src="js/datatables-simple-demo.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    </body>
+</html>

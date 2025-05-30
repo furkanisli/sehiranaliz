@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Hava Kirliliği Haritası</title>
+    <link href="css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+            z-index: 1; /* Haritanın z-index değerini düşürdük */
+        }
+        #map img {
+            max-width: none !important;
+        }
+        .sb-sidenav {
+            width: 250px; /* Sidebar genişliği */
+            display: block !important; /* Varsayılan olarak görünür */
+        }
+        #layoutSidenav_content {
+            margin-left: 250px; /* Sidebar genişliğine göre harita kaydırma */
+            transition: margin-left 0.3s ease;
+        }
+        .sb-sidenav-toggled #layoutSidenav_content {
+            margin-left: 0; /* Sidebar kapalıyken harita tam genişlik alır */
+        }
+    </style>
+</head>
+<body>
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <input class="form-control" type="text" placeholder="Arama Yapın" aria-label="Arama Yapın" aria-describedby="btnNavbarSearch" />
+                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+            </div>
+        </form>
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#!">Ayarlar</a></li>
+                    <li><a class="dropdown-item" href="#!">Aktivite Kütü</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item" href="#!">Lokasyon</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <a class="nav-link" href="index.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Ana Sayfa
+                        </a>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            Haritalar
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="layout-static.html">Hava Kirliliği Haritası</a>
+                                <a class="nav-link" href="layout-sidenav-light.html">Trafik Yoğunluğu Haritası</a>
+                            </nav>
+                        </div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                            Kullanıcı
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                                    Giriş Bilgileri
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="login.html">Giriş Yap</a>
+                                        <a class="nav-link" href="register.html">Kayıt Ol</a>
+                                        <a class="nav-link" href="password.html">Şifremi Unuttum</a>
+                                    </nav>
+                                </div>
+                            </nav>
+                        </div>
+                        <a class="nav-link" href="charts.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Grafikler
+                        </a>
+                        <a class="nav-link" href="tables.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Tablolar
+                        </a>
+                    </div>
+                </div>
+                <a class="navbar-brand ps-3" href="index.html">
+                <img src="img/logo.png" alt="Şehir Analiz" style="height: 200px;">
+                </a>
+            </nav>
+        </div>
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4">HAVA KİRLİLİĞİ HARİTASI</h1>
+                    <select id="citySelect" onchange="zoomToCity()">
+                        <option value="">Şehir Seçin</option>
+                        <option value="Adana">Adana</option>
+                        <option value="Adıyaman">Adıyaman</option>
+                        <option value="Afyonkarahisar">Afyonkarahisar</option>
+                        <option value="Ağrı">Ağrı</option>
+                        <option value="Aksaray">Aksaray</option>
+                        <option value="Amasya">Amasya</option>
+                        <option value="Ankara">Ankara</option>
+                        <option value="Antalya">Antalya</option>
+                        <option value="Artvin">Artvin</option>
+                        <option value="Aydın">Aydın</option>
+                        <option value="Balıkesir">Balıkesir</option>
+                        <option value="Bartın">Bartın</option>
+                        <option value="Batman">Batman</option>
+                        <option value="Bayburt">Bayburt</option>
+                        <option value="Bilecik">Bilecik</option>
+                        <option value="Bingöl">Bingöl</option>
+                        <option value="Bitlis">Bitlis</option>
+                        <option value="Bolu">Bolu</option>
+                        <option value="Burdur">Burdur</option>
+                        <option value="Bursa">Bursa</option>
+                        <option value="Çanakkale">Çanakkale</option>
+                        <option value="Çankırı">Çankırı</option>
+                        <option value="Çorum">Çorum</option>
+                        <option value="Denizli">Denizli</option>
+                        <option value="Diyarbakır">Diyarbakır</option>
+                        <option value="Düzce">Düzce</option>
+                        <option value="Edirne">Edirne</option>
+                        <option value="Elazığ">Elazığ</option>
+                        <option value="Erzincan">Erzincan</option>
+                        <option value="Erzurum">Erzurum</option>
+                        <option value="Eskişehir">Eskişehir</option>
+                        <option value="Gaziantep">Gaziantep</option>
+                        <option value="Giresun">Giresun</option>
+                        <option value="Gümüşhane">Gümüşhane</option>
+                        <option value="Hakkari">Hakkari</option>
+                        <option value="Hatay">Hatay</option>
+                        <option value="Iğdır">Iğdır</option>
+                        <option value="Isparta">Isparta</option>
+                        <option value="İstanbul">İstanbul</option>
+                        <option value="İzmir">İzmir</option>
+                        <option value="Kahramanmaraş">Kahramanmaraş</option>
+                        <option value="Karabük">Karabük</option>
+                        <option value="Karaman">Karaman</option>
+                        <option value="Kars">Kars</option>
+                        <option value="Kastamonu">Kastamonu</option>
+                        <option value="Kayseri">Kayseri</option>
+                        <option value="Kırıkkale">Kırıkkale</option>
+                        <option value="Kırklareli">Kırklareli</option>
+                        <option value="Kırşehir">Kırşehir</option>
+                        <option value="Kilis">Kilis</option>
+                        <option value="Kocaeli">Kocaeli</option>
+                        <option value="Konya">Konya</option>
+                        <option value="Kütahya">Kütahya</option>
+                        <option value="Malatya">Malatya</option>
+                        <option value="Manisa">Manisa</option>
+                        <option value="Mardin">Mardin</option>
+                        <option value="Mersin">Mersin</option>
+                        <option value="Muğla">Muğla</option>
+                        <option value="Muş">Muş</option>
+                        <option value="Nevşehir">Nevşehir</option>
+                        <option value="Niğde">Niğde</option>
+                        <option value="Ordu">Ordu</option>
+                        <option value="Osmaniye">Osmaniye</option>
+                        <option value="Rize">Rize</option>
+                        <option value="Sakarya">Sakarya</option>
+                        <option value="Samsun">Samsun</option>
+                        <option value="Siirt">Siirt</option>
+                        <option value="Sinop">Sinop</option>
+                        <option value="Sivas">Sivas</option>
+                        <option value="Şanlıurfa">Şanlıurfa</option>
+                        <option value="Şırnak">Şırnak</option>
+                        <option value="Tekirdağ">Tekirdağ</option>
+                        <option value="Tokat">Tokat</option>
+                        <option value="Trabzon">Trabzon</option>
+                        <option value="Tunceli">Tunceli</option>
+                        <option value="Uşak">Uşak</option>
+                        <option value="Van">Van</option>
+                        <option value="Yalova">Yalova</option>
+                        <option value="Yozgat">Yozgat</option>
+                        <option value="Zonguldak">Zonguldak</option>
+                    </select>
+                    <div id="map" style="height: 800px;"></div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <input id="searchInput" type="text" placeholder="Şehir ara..." style="position: absolute; top: 10px; left: 10px; z-index: 1000; padding: 5px; width: 200px;">
+    <canvas id="pollutionChart" width="300" height="300" style="position: absolute; bottom: 10px; right: 10px; background: white; border: 1px solid #ccc; z-index: 1000;"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // map değişkenini global olarak tanımlıyoruz
+        let map;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Sidebar'ı varsayılan olarak aç
+            document.body.classList.remove('sb-sidenav-toggled');
+
+            // Haritayı oluştur
+            map = L.map('map').setView([39.0, 35.0], 6);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            const cities = [
+                { city: "Adana", coords: [37.0, 35.3213], pollution: 68 },
+                { city: "Adıyaman", coords: [37.7648, 38.2786], pollution: 54 },
+                { city: "Afyonkarahisar", coords: [38.7638, 30.5403], pollution: 72 },
+                { city: "Ağrı", coords: [39.7191, 43.0503], pollution: 40 },
+                { city: "Amasya", coords: [40.6539, 35.833], pollution: 66 },
+                { city: "Ankara", coords: [39.9208, 32.8541], pollution: 42 },
+                { city: "Antalya", coords: [36.8841, 30.7056], pollution: 35 },
+                { city: "Artvin", coords: [41.1828, 41.8183], pollution: 30 },
+                { city: "Aydın", coords: [37.84, 27.8458], pollution: 44 },
+                { city: "Balıkesir", coords: [39.6484, 27.8826], pollution: 51 },
+                { city: "Bilecik", coords: [40.1501, 29.9793], pollution: 45 },
+                { city: "Bingöl", coords: [38.8847, 40.4939], pollution: 55 },
+                { city: "Bitlis", coords: [38.4, 42.1167], pollution: 60 },
+                { city: "Bolu", coords: [40.576, 31.5788], pollution: 49 },
+                { city: "Burdur", coords: [37.7203, 30.2908], pollution: 38 },
+                { city: "Bursa", coords: [40.195, 29.06], pollution: 64 },
+                { city: "Çanakkale", coords: [40.1467, 26.4086], pollution: 41 },
+                { city: "Çankırı", coords: [40.6013, 33.6134], pollution: 35 },
+                { city: "Çorum", coords: [40.5506, 34.9556], pollution: 57 },
+                { city: "Denizli", coords: [37.7765, 29.0864], pollution: 52 },
+                { city: "Diyarbakır", coords: [37.9144, 40.2306], pollution: 75 },
+                { city: "Edirne", coords: [41.6772, 26.5556], pollution: 36 },
+                { city: "Elazığ", coords: [38.6753, 39.2232], pollution: 69 },
+                { city: "Erzincan", coords: [39.75, 39.5], pollution: 47 },
+                { city: "Erzurum", coords: [39.9, 41.27], pollution: 58 },
+                { city: "Eskişehir", coords: [39.7767, 30.5206], pollution: 63 },
+                { city: "Gaziantep", coords: [37.0662, 37.3833], pollution: 70 },
+                { city: "Giresun", coords: [40.9128, 38.3895], pollution: 34 },
+                { city: "Gümüşhane", coords: [40.46, 39.4814], pollution: 50 },
+                { city: "Hakkari", coords: [37.5744, 43.7408], pollution: 74 },
+                { city: "Hatay", coords: [36.2028, 36.1606], pollution: 53 },
+                { city: "Isparta", coords: [37.7648, 30.5566], pollution: 39 },
+                { city: "Mersin", coords: [36.8, 34.6333], pollution: 67 },
+                { city: "İstanbul", coords: [41.0082, 28.9784], pollution: 79 },
+                { city: "İzmir", coords: [38.4192, 27.1287], pollution: 53 },
+                { city: "Kars", coords: [40.6167, 43.1], pollution: 33 },
+                { city: "Kastamonu", coords: [41.3887, 33.7827], pollution: 61 },
+                { city: "Kayseri", coords: [38.7225, 35.4875], pollution: 58 },
+                { city: "Kırklareli", coords: [41.7333, 27.2167], pollution: 45 },
+                { city: "Kırşehir", coords: [39.1458, 34.1606], pollution: 48 },
+                { city: "Kocaeli", coords: [40.8533, 29.8815], pollution: 68 },
+                { city: "Konya", coords: [37.8667, 32.4833], pollution: 55 },
+                { city: "Kütahya", coords: [39.4167, 29.9833], pollution: 51 },
+                { city: "Malatya", coords: [38.3552, 38.3095], pollution: 63 },
+                { city: "Manisa", coords: [38.6191, 27.4289], pollution: 59 },
+                { city: "Kahramanmaraş", coords: [37.5736, 36.9372], pollution: 71 },
+                { city: "Mardin", coords: [37.3212, 40.7245], pollution: 66 },
+                { city: "Muğla", coords: [37.2153, 28.3636], pollution: 46 },
+                { city: "Muş", coords: [38.9462, 41.7539], pollution: 62 },
+                { city: "Nevşehir", coords: [38.6244, 34.7236], pollution: 49 },
+                { city: "Niğde", coords: [37.9667, 34.6833], pollution: 37 },
+                { city: "Ordu", coords: [40.9839, 37.8789], pollution: 40 },
+                { city: "Rize", coords: [41.0201, 40.5234], pollution: 36 },
+                { city: "Sakarya", coords: [40.7569, 30.3782], pollution: 58 },
+                { city: "Samsun", coords: [41.2867, 36.33], pollution: 47 },
+                { city: "Siirt", coords: [37.9333, 41.95], pollution: 70 },
+                { city: "Sinop", coords: [42.0231, 35.1531], pollution: 35 },
+                { city: "Sivas", coords: [39.7477, 37.0179], pollution: 54 },
+                { city: "Tekirdağ", coords: [40.9833, 27.5167], pollution: 44 },
+                { city: "Tokat", coords: [40.3167, 36.55], pollution: 48 },
+                { city: "Trabzon", coords: [41.0015, 39.7178], pollution: 35 },
+                { city: "Tunceli", coords: [39.1069, 39.5483], pollution: 56 },
+                { city: "Şanlıurfa", coords: [37.1674, 38.7955], pollution: 73 },
+                { city: "Uşak", coords: [38.6823, 29.4082], pollution: 50 },
+                { city: "Van", coords: [38.4942, 43.38], pollution: 68 },
+                { city: "Yozgat", coords: [39.82, 34.8044], pollution: 42 },
+                { city: "Zonguldak", coords: [41.4564, 31.7987], pollution: 59 },
+                { city: "Aksaray", coords: [38.3687, 34.036], pollution: 55 },
+                { city: "Bayburt", coords: [40.2552, 40.2249], pollution: 32 },
+                { city: "Karaman", coords: [37.1811, 33.215], pollution: 52 },
+                { city: "Kırıkkale", coords: [39.8468, 33.5153], pollution: 49 },
+                { city: "Batman", coords: [37.8812, 41.1351], pollution: 67 },
+                { city: "Şırnak", coords: [37.5164, 42.461], pollution: 72 },
+                { city: "Bartın", coords: [41.6344, 32.337], pollution: 46 },
+                { city: "Ardahan", coords: [41.1105, 42.7022], pollution: 31 },
+                { city: "Iğdır", coords: [39.888, 44.0048], pollution: 39 },
+                { city: "Yalova", coords: [40.65, 29.2667], pollution: 57 },
+                { city: "Karabük", coords: [41.2061, 32.6204], pollution: 63 },
+                { city: "Kilis", coords: [36.7184, 37.1212], pollution: 64 },
+                { city: "Osmaniye", coords: [37.0742, 36.2478], pollution: 59 },
+                { city: "Düzce", coords: [40.8438, 31.1565], pollution: 51 }
+            ];
+
+            cities.forEach(({ city, coords, pollution }) => {
+                let color = pollution > 70 ? 'red' : pollution > 40 ? 'orange' : 'green';
+                L.circle(coords, {
+                    color,
+                    fillColor: color,
+                    fillOpacity: 0.5,
+                    radius: 10000
+                }).addTo(map).bindPopup(`<b>${city}</b><br>Hava Kirliliği: %${pollution}`);
+            });
+
+            // Sidebar toggle için harita yenileme
+            document.getElementById('sidebarToggle').addEventListener('click', function () {
+                setTimeout(() => map.invalidateSize(), 300);
+            });
+
+            // İlk 10 şehir grafik için (en yüksek hava kirliliği)
+            const topCities = [...cities]
+                .sort((a, b) => b.pollution - a.pollution)
+                .slice(0, 10);
+
+            // Grafiği oluştur (hava kirliliği için)
+            const ctx = document.getElementById('pollutionChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: topCities.map(c => c.city),
+                    datasets: [{
+                        label: 'Hava Kirliliği (%)',
+                        data: topCities.map(c => c.pollution),
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)', // Kırmızı tonu
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+
+            // Arama çubuğu için olay dinleyici (hava kirliliği verilerine göre)
+            const input = document.getElementById('searchInput');
+            input.addEventListener('input', () => {
+                const query = input.value.toLowerCase();
+                const found = cities.find(c => c.city.toLowerCase() === query);
+                if (found) {
+                    map.setView(found.coords, 10);
+                }
+            });
+        });
+
+        const cityCoordinates = {
+            "Adana": [37.0, 35.3213],
+            "Adıyaman": [37.7648, 38.2786],
+            "Afyonkarahisar": [38.7638, 30.5403],
+            "Ağrı": [39.7191, 43.0503],
+            "Aksaray": [38.3687, 34.0360],
+            "Amasya": [40.6539, 35.8331],
+            "Ankara": [39.9208, 32.8541],
+            "Antalya": [36.8841, 30.7056],
+            "Artvin": [41.1828, 41.8183],
+            "Aydın": [37.8450, 27.8396],
+            "Balıkesir": [39.6484, 27.8826],
+            "Bartın": [41.5811, 32.4603],
+            "Batman": [37.8812, 41.1351],
+            "Bayburt": [40.2560, 40.2249],
+            "Bilecik": [40.1500, 29.9833],
+            "Bingöl": [38.8853, 40.4983],
+            "Bitlis": [38.4000, 42.1167],
+            "Bolu": [40.7395, 31.6116],
+            "Burdur": [37.7203, 30.2908],
+            "Bursa": [40.1950, 29.0601],
+            "Çanakkale": [40.1467, 26.4086],
+            "Çankırı": [40.6000, 33.6167],
+            "Çorum": [40.5506, 34.9556],
+            "Denizli": [37.7833, 29.0883],
+            "Diyarbakır": [37.9144, 40.2306],
+            "Düzce": [40.8438, 31.1565],
+            "Edirne": [41.6772, 26.5550],
+            "Elazığ": [38.6753, 39.2232],
+            "Erzincan": [39.7500, 39.5000],
+            "Erzurum": [39.9043, 41.2679],
+            "Eskişehir": [39.7767, 30.5206],
+            "Gaziantep": [37.0662, 37.3833],
+            "Giresun": [40.9128, 38.3895],
+            "Gümüşhane": [40.4600, 39.4814],
+            "Hakkari": [37.5833, 43.7333],
+            "Hatay": [36.2028, 36.1600],
+            "Iğdır": [39.9167, 44.0333],
+            "Isparta": [37.7648, 30.5566],
+            "İstanbul": [41.0082, 28.9784],
+            "İzmir": [38.4192, 27.1287],
+            "Kahramanmaraş": [37.5736, 36.9371],
+            "Karabük": [41.2061, 32.6204],
+            "Karaman": [37.1759, 33.2287],
+            "Kars": [40.6167, 43.1000],
+            "Kastamonu": [41.3887, 33.7827],
+            "Kayseri": [38.7312, 35.4787],
+            "Kırıkkale": [39.8468, 33.5153],
+            "Kırklareli": [41.7333, 27.2167],
+            "Kırşehir": [39.1458, 34.1606],
+            "Kilis": [36.7167, 37.1167],
+            "Kocaeli": [40.8533, 29.8815],
+            "Konya": [37.8746, 32.4932],
+            "Kütahya": [39.4193, 29.9831],
+            "Malatya": [38.3552, 38.3095],
+            "Manisa": [38.6191, 27.4289],
+            "Mardin": [37.3212, 40.7245],
+            "Mersin": [36.8000, 34.6333],
+            "Muğla": [37.2153, 28.3636],
+            "Muş": [38.9462, 41.7539],
+            "Nevşehir": [38.6244, 34.7239],
+            "Niğde": [37.9667, 34.6833],
+            "Ordu": [40.9839, 37.8764],
+            "Osmaniye": [37.0742, 36.2478],
+            "Rize": [41.0201, 40.5234],
+            "Sakarya": [40.7656, 30.3870],
+            "Samsun": [41.2867, 36.3300],
+            "Siirt": [37.9333, 41.9500],
+            "Sinop": [42.0268, 35.1628],
+            "Sivas": [39.7477, 37.0179],
+            "Şanlıurfa": [37.1674, 38.7955],
+            "Şırnak": [37.5164, 42.4610],
+            "Tekirdağ": [40.9833, 27.5167],
+            "Tokat": [40.3167, 36.5500],
+            "Trabzon": [41.0053, 39.7225],
+            "Tunceli": [39.1080, 39.5483],
+            "Uşak": [38.6823, 29.4082],
+            "Van": [38.5012, 43.4160],
+            "Yalova": [40.6500, 29.2667],
+            "Yozgat": [39.8200, 34.8044],
+            "Zonguldak": [41.4564, 31.7987]
+        };
+
+        function zoomToCity() {
+            const selectedCity = document.getElementById("citySelect").value;
+            if (cityCoordinates[selectedCity]) {
+                map.setView(cityCoordinates[selectedCity], 10); // Zoom seviyesi
+            }
+        }
+    </script>
+</body>
+</html>

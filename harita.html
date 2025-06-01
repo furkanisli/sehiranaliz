@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <script>
+            const map = L.map('map').setView([39.0, 35.0], 6);
+        
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+        
+            const cities = [
+              { city: "Adana", coords: [37.0, 35.3213] },
+              { city: "Ankara", coords: [39.9208, 32.8541] },
+              { city: "İstanbul", coords: [41.0082, 28.9784] },
+              { city: "İzmir", coords: [38.4192, 27.1287] },
+              { city: "Bursa", coords: [40.195, 29.06] },
+              { city: "Antalya", coords: [36.8841, 30.7056] },
+              { city: "Konya", coords: [37.8667, 32.4833] },
+              { city: "Gaziantep", coords: [37.0662, 37.3833] },
+              { city: "Mersin", coords: [36.8, 34.6333] },
+              { city: "Kayseri", coords: [38.7225, 35.4875] },
+              { city: "Adıyaman", coords: [37.7648, 38.2786] },
+              { city: "Afyonkarahisar", coords: [38.7638, 30.5403] },
+              { city: "Ağrı", coords: [39.7191, 43.0503] },
+              { city: "Amasya", coords: [40.6539, 35.833] },
+              { city: "Artvin", coords: [41.1828, 41.8183] },
+              { city: "Balıkesir", coords: [39.6484, 27.8826] },
+              { city: "Bilecik", coords: [40.1501, 29.9793] },
+              { city: "Bingöl", coords: [38.8847, 40.4939] },
+              { city: "Bitlis", coords: [38.4, 42.1167] },
+              { city: "Bolu", coords: [40.576, 31.5788] },
+              { city: "Burdur", coords: [37.7203, 30.2908] },
+              { city: "Çanakkale", coords: [40.1467, 26.4086] },
+              { city: "Çankırı", coords: [40.6013, 33.6134] },
+              { city: "Çorum", coords: [40.5506, 34.9556] },
+              { city: "Denizli", coords: [37.7765, 29.0864] },
+              { city: "Diyarbakır", coords: [37.9144, 40.2306] },
+              { city: "Edirne", coords: [41.6772, 26.5556] },
+              { city: "Elazığ", coords: [38.6753, 39.2232] },
+              { city: "Erzincan", coords: [39.75, 39.5] },
+              { city: "Erzurum", coords: [39.9, 41.27] },
+              { city: "Eskişehir", coords: [39.7767, 30.5206] },
+              { city: "Giresun", coords: [40.9128, 38.3895] },
+              { city: "Gümüşhane", coords: [40.46, 39.4814] },
+              { city: "Hakkari", coords: [37.5744, 43.7408] },
+              { city: "Hatay", coords: [36.2028, 36.1606] },
+              { city: "Isparta", coords: [37.7648, 30.5566] },
+              { city: "İzmir", coords: [38.4192, 27.1287] },
+              { city: "Kahramanmaraş", coords: [37.5736, 36.9372] },
+              { city: "Kars", coords: [40.6167, 43.1] },
+              { city: "Kastamonu", coords: [41.3887, 33.7827] },
+              { city: "Kocaeli", coords: [40.8533, 29.8815] },
+              { city: "Mardin", coords: [37.3212, 40.7245] },
+              { city: "Muğla", coords: [37.2153, 28.3636] },
+              { city: "Muş", coords: [38.9462, 41.7539] },
+              { city: "Nevşehir", coords: [38.6244, 34.7236] },
+              { city: "Niğde", coords: [37.9667, 34.6833] },
+              { city: "Ordu", coords: [40.9839, 37.8789] },
+              { city: "Rize", coords: [41.0201, 40.5234] },
+              { city: "Sakarya", coords: [40.7569, 30.3782] },
+              { city: "Samsun", coords: [41.2867, 36.33] },
+              { city: "Sinop", coords: [42.0231, 35.1531] },
+              { city: "Sivas", coords: [39.7477, 37.0179] },
+              { city: "Tekirdağ", coords: [40.9833, 27.5167] },
+              { city: "Trabzon", coords: [41.0015, 39.7178] },
+              { city: "Tunceli", coords: [39.1069, 39.5483] },
+              { city: "Şanlıurfa", coords: [37.1674, 38.7955] },
+              { city: "Van", coords: [38.4942, 43.38] },
+              { city: "Yozgat", coords: [39.82, 34.8044] },
+              { city: "Zonguldak", coords: [41.4564, 31.7987] },
+              { city: "Aksaray", coords: [38.3687, 34.036] },
+              { city: "Bayburt", coords: [40.2552, 40.2249] },
+              { city: "Karaman", coords: [37.1811, 33.215] },
+              { city: "Kırıkkale", coords: [39.8468, 33.5153] },
+              { city: "Batman", coords: [37.8812, 41.1351] },
+              { city: "Şırnak", coords: [37.5164, 42.461] },
+              { city: "Bartın", coords: [41.6344, 32.337] },
+              { city: "Ardahan", coords: [41.1105, 42.7022] },
+              { city: "Iğdır", coords: [39.888, 44.0048] },
+              { city: "Yalova", coords: [40.65, 29.2667] },
+              { city: "Karabük", coords: [41.2061, 32.6204] },
+              { city: "Kilis", coords: [36.7184, 37.1154] },
+              { city: "Düzce", coords: [40.8389, 31.1567] }
+            ];
+        
+            const cityData = {};
+            const circleMarkers = [];
+        
+            // Hava kirliliği ve trafik verileri
+            cities.forEach(({ city, coords }) => {
+              const pollution = Math.floor(Math.random() * 101);  // Hava kirliliği verisi (0-100)
+              const traffic = Math.floor(Math.random() * 101);    // Trafik yoğunluğu verisi (0-100)
+        
+              const cityKey = city.replace(/\s/g, '');
+              cityData[cityKey] = { pollution, traffic };
+        
+              const color = pollution > 70 ? 'red' : pollution > 40 ? 'orange' : 'green';
+              const radius = 5000 + traffic * 150;
+        
+              const popupHtml = `
+                <div class="popup-content">
+                  <strong>${city}</strong>
+                  <div class="btn-group">
+                    <button onclick="showInfo('${cityKey}', 'pollution')">Hava Kirliliği</button>
+                    <button onclick="showInfo('${cityKey}', 'traffic')">Trafik Yoğunluğu</button>
+                  </div>
+                  <div class="info-box" id="info-box-${cityKey}">
+                    Bir seçim yapın.
+                  </div>
+                </div>
+              `;
+        
+              // Şehirler için daire ekleyin
+              const circle = L.circle(coords, {
+                color,
+                fillColor: color,
+                fillOpacity: 0.5,
+                radius: radius
+              }).addTo(map).bindPopup(popupHtml);
+        
+              circleMarkers.push({ cityKey, circle });
+            });
+        
+            // Tıklama sonrası bilgi kutusunu güncelleyen fonksiyon
+            window.showInfo = function(cityKey, type) {
+              const box = document.getElementById('info-box-' + cityKey);
+              const data = cityData[cityKey];
+              if (box && data) {
+                if (type === 'pollution') {
+                  box.innerHTML = "Hava Kirliliği: %" + data.pollution;
+                  updateCircleColor(cityKey, data.pollution, 'pollution');
+                } else {
+                  box.innerHTML = "Trafik Yoğunluğu: %" + data.traffic;
+                  updateCircleColor(cityKey, data.traffic, 'traffic');
+                }
+              }
+            }
+        
+            // Dairelerin rengini güncelleyen fonksiyon
+            function updateCircleColor(cityKey, value, type) {
+              const cityCircle = circleMarkers.find(marker => marker.cityKey === cityKey);
+              if (cityCircle) {
+                const color = type === 'pollution' ? 
+                  (value > 70 ? 'red' : value > 40 ? 'orange' : 'green') :
+                  (value > 70 ? 'red' : value > 40 ? 'yellow' : 'green');
+        
+                cityCircle.circle.setStyle({ 
+                  color: color, 
+                  fillColor: color 
+                });
+              }
+            }
+          </script>
+</body>
+</html>

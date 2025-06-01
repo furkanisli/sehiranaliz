@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Tablolar</title>
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdn.datatables.net/2.3.0/css/dataTables.dataTables.css" />
+        <link href="css/styles.css" rel="stylesheet" />
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <style>
+        .iyi { background-color: #c8e6c9 !important; }     /* Yeşil */
+        .orta { background-color: #fff9c4 !important; }    /* Sarı */
+        .kotu { background-color: #ffcdd2 !important; }    /* Kırmızı */
+        .az { background-color: #c8e6c9 !important; }     /* Yeşil */
+        .orta { background-color: #fff9c4 !important; }   /* Sarı */
+        .cok { background-color: #ffcdd2 !important; }    /* Kırmızı */
+        </style>
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+            <!-- Navbar Search-->
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Arama Yapın" aria-label="Arama Yapın" aria-describedby="btnNavbarSearch" />
+                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </form>
+            <!-- Navbar-->
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">Ayarlar</a></li>
+                        <li><a class="dropdown-item" href="#!">Aktivite Kütü</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="#!">Lokasyon</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <a class="nav-link" href="index.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Ana Sayfa
+                            </a>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Haritalar
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="layout-static.html">Hava Kirliliği Haritası</a>
+                                    <a class="nav-link" href="layout-sidenav-light.html">Trafik Yoğunluğu Haritası</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                Kullanıcı
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                                        Giriş Bilgileri
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" href="login.html">Giriş Yap</a>
+                                            <a class="nav-link" href="register.html">Kayıt Ol</a>
+                                            <a class="nav-link" href="password.html">Şifremi Unuttum</a>
+                                        </nav>
+                                    </div>
+                                </nav>
+                            </div>
+                            <a class="nav-link" href="charts.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                Grafikler
+                            </a>
+                            <a class="nav-link" href="tables.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Tablolar
+                            </a>
+                        </div>
+                    </div>
+                    <a class="navbar-brand ps-3" href="index.html">
+                    <img src="img/logo.png" alt="Şehir Analiz" style="height: 200px;">
+                    </a>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container mt-5">
+        <div class="row">
+            <div class=" col-12">
+              <h1 class="havaTablosu">HAVA KALİTESİ</h1>
+
+              <table id="table1" class="display">
+                <thead>
+                    <tr>
+                        <th>İl</th>
+                        <th>Hava Kalitesi</th>
+                        <th>PM2.5 (µg/m³)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Adana</td><td>İyi</td><td>17</td></tr>
+                    <tr><td>Adıyaman</td><td>Orta</td><td>58</td></tr>
+                    <tr><td>Afyonkarahisar</td><td>Kötü</td><td>45</td></tr>
+                    <tr><td>Ağrı</td><td>İyi</td><td>31</td></tr>
+                    <tr><td>Aksaray</td><td>Kötü</td><td>87</td></tr>
+                    <tr><td>Amasya</td><td>İyi</td><td>24</td></tr>
+                    <tr><td>Ankara</td><td>Orta</td><td>55</td></tr>
+                    <tr><td>Antalya</td><td>Orta</td><td>44</td></tr>
+                    <tr><td>Ardahan</td><td>Kötü</td><td>100</td></tr>
+                    <tr><td>Artvin</td><td>Kötü</td><td>72</td></tr>
+                    <tr><td>Aydın</td><td>Kötü</td><td>68</td></tr>
+                    <tr><td>Balıkesir</td><td>Orta</td><td>52</td></tr>
+                    <tr><td>Bartın</td><td>İyi</td><td>34</td></tr>
+                    <tr><td>Batman</td><td>İyi</td><td>26</td></tr>
+                    <tr><td>Bayburt</td><td>İyi</td><td>18</td></tr>
+                    <tr><td>Bilecik</td><td>İyi</td><td>27</td></tr>
+                    <tr><td>Bingöl</td><td>Kötü</td><td>73</td></tr>
+                    <tr><td>Bitlis</td><td>Kötü</td><td>66</td></tr>
+                    <tr><td>Bolu</td><td>İyi</td><td>21</td></tr>
+                    <tr><td>Burdur</td><td>İyi</td><td>19</td></tr>
+                    <tr><td>Bursa</td><td>Orta</td><td>48</td></tr>
+                    <tr><td>Çanakkale</td><td>İyi</td><td>16</td></tr>
+                    <tr><td>Çankırı</td><td>Orta</td><td>54</td></tr>
+                    <tr><td>Çorum</td><td>İyi</td><td>30</td></tr>
+                    <tr><td>Denizli</td><td>Kötü</td><td>76</td></tr>
+                    <tr><td>Diyarbakır</td><td>Kötü</td><td>85</td></tr>
+                    <tr><td>Düzce</td><td>Orta</td><td>43</td></tr>
+                    <tr><td>Edirne</td><td>İyi</td><td>20</td></tr>
+                    <tr><td>Elazığ</td><td>Kötü</td><td>74</td></tr>
+                    <tr><td>Erzincan</td><td>Orta</td><td>49</td></tr>
+                    <tr><td>Erzurum</td><td>Kötü</td><td>71</td></tr>
+                    <tr><td>Eskişehir</td><td>İyi</td><td>28</td></tr>
+                    <tr><td>Gaziantep</td><td>Kötü</td><td>90</td></tr>
+                    <tr><td>Giresun</td><td>Orta</td><td>37</td></tr>
+                    <tr><td>Gümüşhane</td><td>İyi</td><td>25</td></tr>
+                    <tr><td>Hakkari</td><td>Kötü</td><td>92</td></tr>
+                    <tr><td>Hatay</td><td>Orta</td><td>39</td></tr>
+                    <tr><td>Iğdır</td><td>Kötü</td><td>93</td></tr>
+                    <tr><td>Isparta</td><td>İyi</td><td>15</td></tr>
+                    <tr><td>İstanbul</td><td>İyi</td><td>15</td></tr>
+                    <tr><td>İzmir</td><td>Orta</td><td>41</td></tr>
+                    <tr><td>Kahramanmaraş</td><td>Orta</td><td>46</td></tr>
+                    <tr><td>Karabük</td><td>İyi</td><td>23</td></tr>
+                    <tr><td>Karaman</td><td>İyi</td><td>27</td></tr>
+                    <tr><td>Kars</td><td>Kötü</td><td>80</td></tr>
+                    <tr><td>Kastamonu</td><td>İyi</td><td>29</td></tr>
+                    <tr><td>Kayseri</td><td>Kötü</td><td>81</td></tr>
+                    <tr><td>Kilis</td><td>Orta</td><td>38</td></tr>
+                    <tr><td>Kırıkkale</td><td>İyi</td><td>26</td></tr>
+                    <tr><td>Kırklareli</td><td>İyi</td><td>22</td></tr>
+                    <tr><td>Kırşehir</td><td>Orta</td><td>50</td></tr>
+                    <tr><td>Kocaeli</td><td>Kötü</td><td>79</td></tr>
+                    <tr><td>Konya</td><td>Orta</td><td>38</td></tr>
+                    <tr><td>Kütahya</td><td>İyi</td><td>19</td></tr>
+                    <tr><td>Malatya</td><td>Orta</td><td>32</td></tr>
+                    <tr><td>Manisa</td><td>Kötü</td><td>83</td></tr>
+                    <tr><td>Mardin</td><td>Orta</td><td>53</td></tr>
+                    <tr><td>Mersin</td><td>Orta</td><td>45</td></tr>
+                    <tr><td>Muğla</td><td>İyi</td><td>12</td></tr>
+                    <tr><td>Muş</td><td>Kötü</td><td>88</td></tr>
+                    <tr><td>Nevşehir</td><td>İyi</td><td>21</td></tr>
+                    <tr><td>Niğde</td><td>İyi</td><td>20</td></tr>
+                    <tr><td>Ordu</td><td>Orta</td><td>40</td></tr>
+                    <tr><td>Osmaniye</td><td>Kötü</td><td>91</td></tr>
+                    <tr><td>Rize</td><td>İyi</td><td>13</td></tr>
+                    <tr><td>Sakarya</td><td>Orta</td><td>35</td></tr>
+                    <tr><td>Samsun</td><td>Orta</td><td>30</td></tr>
+                    <tr><td>Siirt</td><td>Kötü</td><td>86</td></tr>
+                    <tr><td>Sinop</td><td>İyi</td><td>18</td></tr>
+                    <tr><td>Sivas</td><td>İyi</td><td>17</td></tr>
+                    <tr><td>Şanlıurfa</td><td>Kötü</td><td>89</td></tr>
+                    <tr><td>Şırnak</td><td>Kötü</td><td>95</td></tr>
+                    <tr><td>Tekirdağ</td><td>Orta</td><td>42</td></tr>
+                    <tr><td>Tokat</td><td>İyi</td><td>14</td></tr>
+                    <tr><td>Trabzon</td><td>İyi</td><td>10</td></tr>
+                    <tr><td>Tunceli</td><td>Orta</td><td>36</td></tr>
+                    <tr><td>Uşak</td><td>İyi</td><td>19</td></tr>
+                    <tr><td>Van</td><td>Kötü</td><td>96</td></tr>
+                    <tr><td>Yalova</td><td>İyi</td><td>13</td></tr>
+                    <tr><td>Yozgat</td><td>Orta</td><td>31</td></tr>
+                    <tr><td>Zonguldak</td><td>Kötü</td><td>70</td></tr>
+
+                </tbody>   
+            </table>
+
+              
+                
+
+            </div>
+        </div>                
+    </div>
+    <br>
+    <div class="container mt-5">
+      <h1>TRAFİK YOĞUNLUĞU</h1>
+      <table id="trafikTablosu" class="display">
+        <thead>
+          <tr>
+            <th>İl</th>
+            <th>Trafik Yoğunluğu</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Adana</td><td>Orta</td></tr>
+          <tr><td>Adıyaman</td><td>Az</td></tr>
+          <tr><td>Afyonkarahisar</td><td>Çok</td></tr>
+          <tr><td>Ağrı</td><td>Az</td></tr>
+          <tr><td>Aksaray</td><td>Orta</td></tr>
+          <tr><td>Amasya</td><td>Orta</td></tr>
+          <tr><td>Ankara</td><td>Çok</td></tr>
+          <tr><td>Antalya</td><td>Orta</td></tr>
+          <tr><td>Ardahan</td><td>Orta</td></tr>
+          <tr><td>Artvin</td><td>Az</td></tr>
+          <tr><td>Aydın</td><td>Çok</td></tr>
+          <tr><td>Balıkesir</td><td>Orta</td></tr>
+          <tr><td>Bartın</td><td>Az</td></tr>
+          <tr><td>Batman</td><td>Çok</td></tr>
+          <tr><td>Bayburt</td><td>Az</td></tr>
+          <tr><td>Bilecik</td><td>Orta</td></tr>
+          <tr><td>Bingöl</td><td>Az</td></tr>
+          <tr><td>Bitlis</td><td>Orta</td></tr>
+          <tr><td>Bolu</td><td>Az</td></tr>
+          <tr><td>Burdur</td><td>Orta</td></tr>
+          <tr><td>Bursa</td><td>Çok</td></tr>
+          <tr><td>Çanakkale</td><td>Orta</td></tr>
+          <tr><td>Çankırı</td><td>Az</td></tr>
+          <tr><td>Çorum</td><td>Orta</td></tr>
+          <tr><td>Denizli</td><td>Çok</td></tr>
+          <tr><td>Diyarbakır</td><td>Çok</td></tr>
+          <tr><td>Düzce</td><td>Orta</td></tr>
+          <tr><td>Edirne</td><td>Az</td></tr>
+          <tr><td>Elazığ</td><td>Orta</td></tr>
+          <tr><td>Erzincan</td><td>Az</td></tr>
+          <tr><td>Erzurum</td><td>Orta</td></tr>
+          <tr><td>Eskişehir</td><td>Çok</td></tr>
+          <tr><td>Gaziantep</td><td>Çok</td></tr>
+          <tr><td>Giresun</td><td>Orta</td></tr>
+          <tr><td>Gümüşhane</td><td>Az</td></tr>
+          <tr><td>Hakkari</td><td>Az</td></tr>
+          <tr><td>Hatay</td><td>Çok</td></tr>
+          <tr><td>Iğdır</td><td>Az</td></tr>
+          <tr><td>Isparta</td><td>Orta</td></tr>
+          <tr><td>İstanbul</td><td>Çok</td></tr>
+          <tr><td>İzmir</td><td>Çok</td></tr>
+          <tr><td>Kahramanmaraş</td><td>Orta</td></tr>
+          <tr><td>Karabük</td><td>Az</td></tr>
+          <tr><td>Karaman</td><td>Az</td></tr>
+          <tr><td>Kars</td><td>Az</td></tr>
+          <tr><td>Kastamonu</td><td>Orta</td></tr>
+          <tr><td>Kayseri</td><td>Çok</td></tr>
+          <tr><td>Kilis</td><td>Az</td></tr>
+          <tr><td>Kırıkkale</td><td>Orta</td></tr>
+          <tr><td>Kırklareli</td><td>Orta</td></tr>
+          <tr><td>Kırşehir</td><td>Az</td></tr>
+          <tr><td>Kocaeli</td><td>Çok</td></tr>
+          <tr><td>Konya</td><td>Orta</td></tr>
+          <tr><td>Kütahya</td><td>Orta</td></tr>
+          <tr><td>Malatya</td><td>Orta</td></tr>
+          <tr><td>Manisa</td><td>Çok</td></tr>
+          <tr><td>Mardin</td><td>Orta</td></tr>
+          <tr><td>Mersin</td><td>Çok</td></tr>
+          <tr><td>Muğla</td><td>Orta</td></tr>
+          <tr><td>Muş</td><td>Az</td></tr>
+          <tr><td>Nevşehir</td><td>Az</td></tr>
+          <tr><td>Niğde</td><td>Orta</td></tr>
+          <tr><td>Ordu</td><td>Orta</td></tr>
+          <tr><td>Osmaniye</td><td>Orta</td></tr>
+          <tr><td>Rize</td><td>Az</td></tr>
+          <tr><td>Sakarya</td><td>Çok</td></tr>
+          <tr><td>Samsun</td><td>Orta</td></tr>
+          <tr><td>Siirt</td><td>Az</td></tr>
+          <tr><td>Sinop</td><td>Az</td></tr>
+          <tr><td>Sivas</td><td>Orta</td></tr>
+          <tr><td>Şanlıurfa</td><td>Çok</td></tr>
+          <tr><td>Şırnak</td><td>Az</td></tr>
+          <tr><td>Tekirdağ</td><td>Çok</td></tr>
+          <tr><td>Tokat</td><td>Orta</td></tr>
+          <tr><td>Trabzon</td><td>Orta</td></tr>
+          <tr><td>Tunceli</td><td>Az</td></tr>
+          <tr><td>Uşak</td><td>Az</td></tr>
+          <tr><td>Van</td><td>Orta</td></tr>
+          <tr><td>Yalova</td><td>Çok</td></tr>
+          <tr><td>Yozgat</td><td>Az</td></tr>
+          <tr><td>Zonguldak</td><td>Orta</td></tr>
+        </tbody>
+      </table>
+    </div>
+                </main>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+        <script src="js/datatables-simple-demo.js"></script>
+        <script src ="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>  
+        <script src="https://cdn.datatables.net/2.3.0/js/dataTables.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/2.3.0/js/dataTables.js"></script>
+        <script>
+
+        $(document).ready(function() {
+            $('#table1').DataTable(
+                {
+                    stateSave: true
+                }
+            );
+        });
+
+
+
+        $(document).ready(function () {
+        var table = $('#table1').DataTable();
+        });
+
+
+        $('#table1 tbody tr').each(function () {
+        var kalite = $(this).find('td:eq(1)').text().trim();
+        if (kalite === 'İyi') {
+          $(this).addClass('iyi');
+        } else if (kalite === 'Orta') {
+          $(this).addClass('orta');
+        } else if (kalite === 'Kötü') {
+          $(this).addClass('kotu');
+        }
+      });
+
+
+
+    </script>
+    <script>
+
+      
+        $(document).ready(function () {
+            $('#trafikTablosu').DataTable({
+            stateSave: true,
+            drawCallback: function () {
+                $('#trafikTablosu tbody tr').each(function () {
+                const yogunluk = $(this).find('td:eq(1)').text().trim();
+                $(this).removeClass('az orta cok');
+                if (yogunluk === 'Az') {
+                    $(this).addClass('az');
+                } else if (yogunluk === 'Orta') {
+                    $(this).addClass('orta');
+                } else if (yogunluk === 'Çok') {
+                    $(this).addClass('cok');
+                }
+                });
+            }
+            });
+        });
+
+
+
+    </script>
+
+
+
+    </body>
+</html>
